@@ -1,84 +1,82 @@
-window.addEventListener(`load`, () => {
-    const baseurl = `http://localhost:3030`;
-    const guest = document.querySelector(`#guest`);
-    const user = document.querySelector(`#user`)
-    fetch(`${baseurl}/jsonstore/cookbook/recipes`).
-        then(res => res.json()).
-        then(el => Object.values(el).forEach(el => createElement(renderPreview(el))));
-    console.log(localStorage.accessToken);
-    if (localStorage.accessToken !== undefined) {
-        user.style.display = `block`
-        const logOutBtn = document.getElementById(`logoutBtn`);
-        logOutBtn.addEventListener(`click`, (e) => {
-            localStorage.clear()
-            window.location.reload()
-        })
-    } else {
-        guest.style.display = `block`
-    }
+async function getRecipes() {
+    const response = await fetch('http://localhost:3030/jsonstore/cookbook/recipes');
+    const recipes = await response.json();
 
-});
-
-function createElement(recipe) {
-    const mainEl = document.querySelector(`main`);
-    mainEl.appendChild(recipe)
-    let p = mainEl.querySelector(`p`);
-
+    return Object.values(recipes);
 }
 
-function renderPreview(element) {
+async function getRecipeById(id) {
+    const response = await fetch('http://localhost:3030/jsonstore/cookbook/details/' + id);
+    const recipe = await response.json();
 
-
-    let recipe = document.createElement(`article`);
-    recipe.classList.add(`preview`);
-    const id = element._id;
-    recipe.addEventListener(`click`, (e) => {
-
-        const urlLoad = `http://localhost:3030/jsonstore/cookbook/details/${id}`
-        fetch(urlLoad)
-            .then(res => res.json())
-            .then(el => {
-                const mainEl = document.querySelector(`main`);
-                mainEl.innerHTML = ``;
-                createElement(renderDetailedPreview(el))
-                console.log(el);
-            })
-    })
-    recipe.innerHTML = `
-    <div class="title">
-    <h2>${element.name}</h2>
-        </div>
-        <div class="small">
-    <img src="${element.img}">
-        </div>`;
     return recipe;
 }
 
-function renderDetailedPreview(element) {
-    const article = document.createElement(`article`);
-    article.innerHTML = `
-    <h2>${element.name}</h2>
-    <div class="band">
-        <div class="thumb">
-            <img src="${element}">
-        </div>
-        <div class="ingredients">
-            <h3>Ingredients:</h3>
-            <ul>
-               ${element.ingredients.map(x => `<li>${x}</li>`).join(``)}
-                </ul>
-        </div>
-    </div>
-    <div class="description">
-        <h3>Preparation:</h3>
-    ${element.steps.map(x => `<p>${x}</p>`).join(``)}
-    </div>`
-    return article;
+function createRecipePreview(recipe) {
+    const result = e('article', { className: 'preview', onClick: toggleCard },
+        e('div', { className: 'title' }, e('h2', {}, recipe.name)),
+        e('div', { className: 'small' }, e('img', { src: recipe.img })),
+    );
+
+    return result;
+
+    async function toggleCard() {
+        const fullRecipe = await getRecipeById(recipe._id);
+
+        result.replaceWith(createRecipeCard(fullRecipe));
+    }
 }
-//below is the output from the fetch preview
-// _id: '01', name: 'Recipe 1', img: 'assets/lasagna.jpg', steps: Array(3), ingredients: Array(4)}
-// img: "assets/lasagna.jpg"
-// ingredients: (4) ['1 tbsp Ingredient 1', '2 cups Ingredient 2', '500 g  Ingredient 3', '25 g Ingredient 4']
-// name: "Recipe 1"
-// steps: (3) ['Prepare ingredients', 'Mix ingredients', 'Cook until done']
-// _id: "01"
+
+function createRecipeCard(recipe) {
+    const result = e('article', {},
+        e('h2', {}, recipe.name),
+        e('div', { className: 'band' },
+            e('div', { className: 'thumb' }, e('img', { src: recipe.img })),
+            e('div', { className: 'ingredients' },
+                e('h3', {}, 'Ingredients:'),
+                e('ul', {}, recipe.ingredients.map(i => e('li', {}, i))),
+            )
+        ),
+        e('div', { className: 'description' },
+            e('h3', {}, 'Preparation:'),
+            recipe.steps.map(s => e('p', {}, s))
+        ),
+    );
+
+    return result;
+}
+
+window.addEventListener('load', async () => {
+    const main = document.querySelector('main');
+
+    const recipes = await getRecipes();
+    const cards = recipes.map(createRecipePreview);
+
+    main.innerHTML = '';
+    cards.forEach(c => main.appendChild(c));
+});
+
+function e(type, attributes, ...content) {
+    const result = document.createElement(type);
+
+    for (let [attr, value] of Object.entries(attributes || {})) {
+        if (attr.substring(0, 2) == 'on') {
+            result.addEventListener(attr.substring(2).toLocaleLowerCase(), value);
+        } else {
+            result[attr] = value;
+        }
+    }
+
+    content = content.reduce((a, c) => a.concat(Array.isArray(c) ? c : [c]), []);
+
+    content.forEach(e => {
+        if (typeof e == 'string' || typeof e == 'number') {
+            const node = document.createTextNode(e);
+            result.appendChild(node);
+        } else {
+            result.appendChild(e);
+        }
+    });
+
+    return result;
+}

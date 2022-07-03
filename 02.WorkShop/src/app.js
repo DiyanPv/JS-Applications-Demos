@@ -1,5 +1,6 @@
 import { router } from "./router.js";
 import { authCheck } from "./auth.js";
+router(`/`)
 authCheck();
 const navigationElement = document.querySelector(`.navigation`);
 navigationElement.addEventListener(`click`, (e) => {

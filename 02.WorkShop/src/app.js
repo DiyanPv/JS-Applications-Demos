@@ -1,4 +1,5 @@
-import { router } from `./router.js`;
+import { router } from "./router.js";
+
 const guestNav = document.getElementById(`guest`);
 const userNav = document.querySelector(`#user`);
 guestNav.style.display = `inline`;
@@ -7,7 +8,6 @@ const navigationElement = document.querySelector(`.navigation`);
 navigationElement.addEventListener(`click`, (e) => {
     e.preventDefault()
     if (e.target.tagName == `A`) {
-        ;
         let url = new URL(e.target.href);
         console.log(url.pathname);
         router(url.pathname);

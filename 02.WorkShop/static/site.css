@@ -64,3 +64,9 @@ a.active {
 #guest {
     display: none;
 }
+
+.home,
+.register,
+.create-recipe, .login {
+    display: none;
+}

@@ -22,3 +22,10 @@ export function logout() {
     userNav.style.display = `none`
     guestNav.style.display = `inline`
 }
+export function getToken() {
+    let userIsValid = localStorage.getItem(`user`);
+    if (userIsValid) {
+        const token = JSON.parse(userIsValid)
+        return token.accessToken
+    }
+}

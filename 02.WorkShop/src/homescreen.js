@@ -2,14 +2,13 @@ const search = `http://localhost:3030/data/recipes`;
 
 export async function renderHome() {
     const homeSection = document.querySelector(`.home`);
+    homeSection.innerHTML = ''
     fetch(search).then(res => res.json()).then(data => {
 
         data.forEach(element => {
             // console.log(element);
             let toappend = renderRecipe(element);
             homeSection.appendChild(toappend)
-            console.log(homeSection.innerHTML);
-            // console.log(renderRecipe(element).innerHTML);
         });
     })
     homeSection.style.display = `block`

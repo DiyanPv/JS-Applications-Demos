@@ -15,12 +15,20 @@ formInput.addEventListener(`submit`, (e) => {
         },
         body: JSON.stringify({ email, password })
     }).then(res => res.json()).then(data => {
-        localStorage.setItem(`user`, JSON.stringify(data));
+        console.log(data)
+        if (!data.code) {
+            localStorage.setItem(`user`, JSON.stringify(data));
+
+        }
+
         authCheck()
 
     })
+    console.log(email);
+    password = ''
 })
 export function renderLogin() {
     loginSection.style.display = `inline`
+
 
 }

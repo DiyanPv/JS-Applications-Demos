@@ -72,3 +72,10 @@ a.active {
 .image {
     display: none;
 }
+
+.image404 {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    height: 50%;
+}

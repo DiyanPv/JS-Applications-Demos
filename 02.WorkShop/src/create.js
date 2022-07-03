@@ -1,6 +1,5 @@
 
-const createRecipeSection = document.querySelector(`.create-recipe`);
-
+const homeSection = document.querySelector(`.home`);
 export function renderNewRecipe() {
     createRecipeSection.style.display = `block`
 }

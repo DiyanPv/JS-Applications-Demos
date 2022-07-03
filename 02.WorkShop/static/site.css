@@ -67,6 +67,8 @@ a.active {
 
 .home,
 .register,
-.create-recipe, .login {
+.create-recipe,
+.login,
+.image {
     display: none;
 }

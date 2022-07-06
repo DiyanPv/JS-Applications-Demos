@@ -2,12 +2,14 @@ import { showLogin } from "./pages/login.js";
 import { hideAll } from "./pages/login.js";
 import { homePageRend } from "./pages/mainscreen.js";
 import { registerPage } from "./pages/register.js";
-
+import { logoutFunc } from "./pages/logout.js";
+import { createPage } from "./pages/createelement.js";
 const router = {
     "/login": showLogin,
     "/": homePageRend,
-    "/register": registerPage
-
+    "/register": registerPage,
+    "/create": createPage,
+    "/logout": logoutFunc
 
 }
 
@@ -25,5 +27,6 @@ document.querySelector(`nav`).addEventListener(`click`, (e) => {
 })
 document.querySelector(`#add-movie-button a`).addEventListener(`click`, (e) => {
     e.preventDefault();
-    console.log(e.target);
+    let view = router["/create"];
+    view()
 })

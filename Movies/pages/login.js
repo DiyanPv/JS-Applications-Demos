@@ -1,8 +1,6 @@
 const loginSection = document.getElementById(`form-login`);
 const toHide = document.querySelectorAll(`.view-section`);
 const homePage = document.getElementById(`home-page`);
-const guestItems = document.querySelectorAll(".guest");
-const userItems = document.querySelectorAll(`.user`);
 import { homePageRend } from "./mainscreen.js";
 export function hideAll() {
     toHide.forEach(el => el.style.display = `none`)
@@ -16,7 +14,7 @@ export function showLogin() {
         let emailInput = form.get(`email`);
         let passwordInput = form.get(`password`)
         const url = `http://localhost:3030/users/login`
-        const res = fetch(url, {
+        const res = await fetch(url, {
             method: 'POST',
             body: JSON.stringify({ email: emailInput, password: passwordInput })
         })
@@ -24,17 +22,11 @@ export function showLogin() {
             alert(`Wrong email or password`)
         } else {
             hideAll()
-            const guestarr = Array.from(guestItems)
-            guestItems.forEach(el => el.style.display = `block`);
-            const userArr = Array.from(userItems);
-            userArr.forEach(el => el.style.display = `block`)
+            const user = await res.json();
+            localStorage.setItem(`user`, JSON.stringify(user));
             homePageRend()
-
         }
 
     })
 }
 
-export function updateNav() {
-    const user = localStorage.getItem(`user`)
-}

@@ -10,7 +10,6 @@ const router = {
     "/register": registerPage,
     "/create": createPage,
     "/logout": logoutFunc
-
 }
 
 hideAll()

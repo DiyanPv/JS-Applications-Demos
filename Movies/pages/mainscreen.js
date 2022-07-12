@@ -17,8 +17,7 @@ function updateNav() {
         guestItems.forEach(el => el.style.display = `none`);
         userArr.forEach(el => el.style.display = `block`);
         addBtn.style.display = `block`;
-
-        navlinkEmail.innerText = `Welcome ${JSON.parse(dada).username}`
+        navlinkEmail.innerText = `Welcome ${JSON.parse(dada).email}`
 
     } else {
         const guestarr = Array.from(guestItems)
@@ -33,25 +32,19 @@ function hideAll() {
 }
 export function homePageRend() {
     hideAll();
+    catalogue.innerHTML = ``
     updateNav()
     homePage.style.display = `block`;
     addMovieBtn.style.display = `block`;
     movies.style.display = `block`;
-
-    let card = document.querySelectorAll(`.card`)
-    let cardArr = Array.from(card);
-    // cardArr.forEach(ell => {
-    //     let currentCard = ell.querySelector(`.card-body .card-title`);
-    //     dataTest.forEach(el => {
-    //         console.log(el.title);
-    //         console.log(currentCard.innerText);
-    //         if (currentCard.innerText == el.title) {
-    //             return
-    //         }
-    //     })
-
-    // })
     getMovies()
+    let detailbutton = catalogue.querySelectorAll(`.card button`);
+    detailbutton.forEach(el => {
+        el.addEventListener(`click`, (e) => {
+            e.preventDefault()
+        })
+    })
+
 }
 
 function createMovie(movie) {

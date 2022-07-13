@@ -10,7 +10,7 @@ loadBooksButton.addEventListener(`click`, async (e) => {
 
     let [titleInput, authorInput] = form.querySelectorAll(`input`)
     let tds = tbody.querySelectorAll(`tr td`);
-
+    tbody.innerHTML = ``
     Object.entries(res).forEach(el => {
         Array.from(tds).forEach(ell => {
 
@@ -96,10 +96,10 @@ submitBtn.addEventListener(`click`, async (e) => {
                 author: authorInput.value
             })
         };
-        titleInput.value = '';
-        authorInput.value = '';
         let initial = await fetch(url, options);
         let res = await initial.json();
+        titleInput.value = '';
+        authorInput.value = '';
 
 
 

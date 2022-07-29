@@ -1,17 +1,14 @@
-import { render, html } from "../node_modules/lit-html/lit-html.js";
+import { html } from "../node_modules/lit-html/lit-html.js";
+import page from "../node_modules/page/page.mjs"
 import { naviGationTemplate } from "./navigationView.js";
 
 
-export const layoutTemplate = (pageContent) => html`
+export const layoutTemplate = (ctx, pageContent) => html`
 <nav>
-    ${naviGationTemplate()}
+    ${naviGationTemplate(ctx)}
 </nav>
 <main>
     ${pageContent}
 </main>
 `
 
-export const layoutView = () => {
-
-
-}

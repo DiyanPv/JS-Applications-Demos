@@ -1,5 +1,5 @@
 import { register } from "../api/api.js";
-import { html, render } from "../node_modules/lit-html/lit-html.js";
+import { html } from "../node_modules/lit-html/lit-html.js";
 import page from "../node_modules/page/page.mjs"
 const registerTemplate = () => html`
 <body>

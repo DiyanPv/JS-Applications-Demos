@@ -3,8 +3,6 @@ import { html } from "../node_modules/lit-html/lit-html.js";
 import page from "../node_modules/page/page.mjs"
 
 
-
-
 const loginTemplate = () => html`
 <body>
     <meta charset="utf-8">
@@ -56,8 +54,9 @@ export const renderLogin = (ctx) => {
         let newform = new FormData(e.currentTarget);
         let email = newform.get(`email`);
         let pass = newform.get(`pass`);
-        await login(email, pass).then(res => res.json())
-        page.redirect(`/`)
+        login(email, pass).then(res => res.json())
+        ctx.page.redirect(`/`);
     })
+    page.reload()
 }
 

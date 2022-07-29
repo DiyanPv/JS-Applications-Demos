@@ -5,6 +5,8 @@ import { renderMiddleWare } from "./middleware.js"
 import { renderLogin } from "./views/login.js";
 import { renderRegister } from "./views/register.js";
 import { authMiddleWare } from "./authservices/auth.js";
+import { logoutFunc } from "./authservices/logout.js";
+
 
 
 page(renderMiddleWare);
@@ -12,5 +14,7 @@ page(authMiddleWare)
 
 page(`/`, renderHome);
 page(`/login`, renderLogin);
-page(`/register`, renderRegister)
+page(`/register`, renderRegister);
+page(`/logout`, logoutFunc);
+page(`/mycollection`, renderHome);
 page.start()
